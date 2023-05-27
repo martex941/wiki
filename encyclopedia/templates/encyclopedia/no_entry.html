@@ -1,0 +1,21 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ try_entry }}
+{% endblock %}
+
+{% block body %}
+    <style>
+        .text-center {
+            margin-top: 20%;
+        }
+    </style>
+    
+    <div class="text-center">
+        <h2>NOT FOUND</h2>
+
+        <p>The entry you are searching for cannot be found.</p>
+    </div>
+    
+
+{% endblock %}
