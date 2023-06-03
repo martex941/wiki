@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 import re
 import markdown2
 
@@ -37,5 +38,17 @@ def entry(request, entry_name):
         "current_entry": current_entry
     })
 
+def new_page(request):
+    if request.method == "POST":
+        entries = util.list_entries()
+        entry_title = request.POST.get("entry-title")
+        entry_contents = request.POST.get("entry-contents")
+        
+        if entry_title in entries:
+            messages.error(request, "ERROR: The entry title already exists in the database.")
+        else:
+            util.save_entry(entry_title, entry_contents)
 
+
+    return render(request, "encyclopedia/new_page.html")
     
