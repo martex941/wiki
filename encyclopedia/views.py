@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
 import re
 import markdown2
@@ -14,7 +13,7 @@ def index(request):
     if request.method == "POST":
         query = request.POST.get("q")
         if query in entries:
-            return HttpResponseRedirect(query)
+            return redirect("entry", entry_name=query)
         else:
             pattern = rf'.*{query}.*'
             matched_entries = [item for item in entries if re.match(pattern, item, re.IGNORECASE)]
@@ -32,7 +31,7 @@ def entry(request, entry_name):
         current_entry = util.get_entry(entry_name)
         current_entry = markdown2.markdown(current_entry)
     except TypeError:
-        return HttpResponseRedirect("no_entry")
+        return redirect("no_entry")
 
     return render(request, "encyclopedia/entry.html", {
         "current_entry": current_entry
@@ -48,7 +47,10 @@ def new_page(request):
             messages.error(request, "ERROR: The entry title already exists in the database.")
         else:
             util.save_entry(entry_title, entry_contents)
-
-
+            return redirect("entry", entry_name=entry_title)
+        
     return render(request, "encyclopedia/new_page.html")
     
+def edit_page(request):
+
+    return render(request, "encyclopedia/edit_entry.html")
