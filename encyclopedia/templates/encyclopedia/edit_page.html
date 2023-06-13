@@ -6,27 +6,12 @@
 
 {% block body %}
 
-    {% for message in messages %}
-    <style>
-        .error-message {
-            background-color: rgba(251, 8, 8, 0.5);
-            margin: 2rem;
-            border-radius: 10%;
-        }
-    </style>
-        <div class="error-message">
-            {{ message }}
-        </div>
-    {% endfor %}
-
-    <form action="{% url 'new_page' %}" method="post" name="add-entry">
+    <form action="{% url 'edit_page' entry_name=entry_name %}" method="post" name="edit-entry">
         {% csrf_token %}
-        <h3>Enter the title of your entry</h3>
-        <input type="text" placeholder="" name="entry-title">
 
-        <h3>Enter the contents of your entry</h3>
+        <h3>Now editing: {{ entry_name }}</h3>
 
-        <textarea name="entry-contents" rows="4" cols="50"></textarea>
+        <textarea name="entry-contents" rows="4" cols="50" name="edited-entry">{{ entry_contents }}</textarea>
 
         <button type="submit" name="save-entry">SAVE ENTRY</button>
     </form>

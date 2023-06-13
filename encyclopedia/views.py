@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 import re
 import markdown2
+import random
 
 from . import util
 
@@ -34,7 +35,8 @@ def entry(request, entry_name):
         return redirect("no_entry")
 
     return render(request, "encyclopedia/entry.html", {
-        "current_entry": current_entry
+        "current_entry": current_entry,
+        "entry_name": entry_name
     })
 
 def new_page(request):
@@ -51,6 +53,28 @@ def new_page(request):
         
     return render(request, "encyclopedia/new_page.html")
     
-def edit_page(request):
+def edit_page(request, entry_name):
 
-    return render(request, "encyclopedia/edit_entry.html")
+    entry_contents=util.get_entry(entry_name)
+
+    if request.method == "POST":
+        edited_entry=request.POST.get("edited-entry")
+        print(edited_entry)
+        util.save_entry(entry_name, entry_contents)
+        return redirect("entry", entry_name=entry_name)
+
+    return render(request, "encyclopedia/edit_page.html", {
+        "entry_contents": entry_contents,
+        "entry_name": entry_name
+    })
+
+def random_page(request):
+
+    entries=util.list_entries()
+    
+    entries_length=len(util.list_entries())
+
+    random_index=random.randint(0, entries_length - 1)
+    random_entry=entries[random_index]
+
+    return redirect("entry", entry_name=random_entry)
