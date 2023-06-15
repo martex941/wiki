@@ -55,12 +55,11 @@ def new_page(request):
     
 def edit_page(request, entry_name):
 
-    entry_contents=util.get_entry(entry_name)
+    entry_contents = util.get_entry(entry_name)
 
     if request.method == "POST":
-        edited_entry=request.POST.get("edited-entry")
-        print(edited_entry)
-        util.save_entry(entry_name, entry_contents)
+        edited_contents = request.POST.get("edited-entry")
+        util.save_entry(entry_name, bytes(edited_contents, 'utf8'))
         return redirect("entry", entry_name=entry_name)
 
     return render(request, "encyclopedia/edit_page.html", {
@@ -70,11 +69,11 @@ def edit_page(request, entry_name):
 
 def random_page(request):
 
-    entries=util.list_entries()
+    entries = util.list_entries()
     
-    entries_length=len(util.list_entries())
+    entries_length = len(util.list_entries())
 
-    random_index=random.randint(0, entries_length - 1)
-    random_entry=entries[random_index]
+    random_index = random.randint(0, entries_length - 1)
+    random_entry = entries[random_index]
 
     return redirect("entry", entry_name=random_entry)
