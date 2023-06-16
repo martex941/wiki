@@ -5,18 +5,25 @@
 {% endblock %}
 
 {% block body %}
-
-    {% for message in messages %}
     <style>
+        .start-align {
+            display: flex;
+            justify-content: start;
+        }
         .error-message {
-            background-color: rgba(251, 8, 8, 0.5);
-            margin: 2rem;
-            border-radius: 10%;
+            width: 200px;
+            background-color: rgba(251, 8, 8, 0.705);
+            margin: 1rem 0 1rem 0;
+            font-weight: 500;
         }
     </style>
+
+    {% for message in messages %}
+    <div class="start-align">
         <div class="error-message">
             {{ message }}
         </div>
+    </div>
     {% endfor %}
 
     <form action="{% url 'new_page' %}" method="post" name="add-entry">
@@ -26,7 +33,7 @@
 
         <h3>Enter the contents of your entry</h3>
 
-        <textarea name="entry-contents" rows="4" cols="50"></textarea>
+        <textarea name="entry-contents"></textarea>
 
         <button type="submit" name="save-entry">SAVE ENTRY</button>
     </form>
