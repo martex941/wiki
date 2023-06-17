@@ -6,35 +6,33 @@
 
 {% block body %}
     <style>
-        .start-align {
-            display: flex;
-            justify-content: start;
-        }
         .error-message {
-            width: 200px;
-            background-color: rgba(251, 8, 8, 0.705);
-            margin: 1rem 0 1rem 0;
-            font-weight: 500;
+            width: 30%;
+        }
+        textarea {
+            height: 80vh;
+            width: 90%;
         }
     </style>
 
     {% for message in messages %}
-    <div class="start-align">
-        <div class="error-message">
+    <div class="error-message">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
     {% endfor %}
 
     <form action="{% url 'new_page' %}" method="post" name="add-entry">
         {% csrf_token %}
-        <h3>Enter the title of your entry</h3>
-        <input type="text" placeholder="" name="entry-title">
+        <h3>Enter the title of your entry:</h3>
+        <input type="text" placeholder="Entry name..." name="entry-title">
 
-        <h3>Enter the contents of your entry</h3>
+        <h3>Enter the contents of your entry:</h3>
 
-        <textarea name="entry-contents"></textarea>
-
+        <textarea name="entry-contents" placeholder="Entry content..."></textarea>
+        <br>
         <button type="submit" name="save-entry">SAVE ENTRY</button>
     </form>
 
